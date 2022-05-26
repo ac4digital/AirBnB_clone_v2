@@ -31,8 +31,9 @@ class DBStorage:
             "db": getenv("HBNB_MYSQL_DB")
         }
 
-        self.__engine = create_engine('mysql+mysqldb://{user}:{pass}@{host}:{port}/{db}'
-                                      .format(**db_parameters), pool_pre_ping=True)
+        self.__engine = create_engine('mysql+mysqldb://{user}:{pass}@{host}:\
+                                      {port}/{db}'.format(**db_parameters),
+                                      pool_pre_ping=True)
 
         if getenv("HBNB_ENV") == 'test':
             Base.metada.drop_all(self.__engine)
@@ -72,7 +73,7 @@ class DBStorage:
             bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
-    
+
     def close(self):
         """ call reload method"""
         self.__session.remove()
